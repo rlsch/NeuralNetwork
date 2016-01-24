@@ -472,9 +472,20 @@ void init_neural_net(Neural_net* nn) {
 }
 
 void destroy_neural_network(Neural_net* nn) {
+    // intput layer
+    for (int i = 0; i < NUM_INPUT_NODES; i++) {
+        free(nn->input.neuron[i].weight);
+    }
     // hidden layer
     for (int i = 0; i < NUM_HIDDEN_LAYER; i++) {
+        for (int j = 0; j < nn->hidden[i].num_of_nodes; j++) {
+            free(nn->hidden[i].neuron[j].weight);
+        }
         free(nn->hidden[i].neuron);
         free(nn->hidden[i].input);
     }
-}
+}    // output layer
+    for (int i = 0; i < NUM_OUTPUT_NODES; i++) {
+        free(nn->output.neuron[i].weight);
+    }
+    free(nn->output.input);
